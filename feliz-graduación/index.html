@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Una felicitación cinematográfica y emocional para un graduado especial.">
+    <title>¡Feliz Graduación!</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800;900&family=Montserrat:wght@300;400;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <!-- Estilos Principales -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Canvas para lluvia de emojis (corazones, birretes, estrellas) -->
+    <canvas id="rain-canvas"></canvas>
+    <button id="btn-audio" class="audio-control hidden" aria-label="Control de música">
+        <svg class="icon-play" viewBox="0 0 24 24" width="24" height="24">
+            <path fill="currentColor" d="M8 5v14l11-7z"/>
+        </svg>
+        <svg class="icon-mute hidden" viewBox="0 0 24 24" width="24" height="24">
+            <path fill="currentColor" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM12 4L9.91 6.09 12 8.18V4zm-8 8H6l5 5v-4.18L4.82 10.82C4.3 11.12 4 11.53 4 12zm16.5-6.5l-1.41-1.41L3 18.27l1.41 1.41 4.5-4.5H11v5l5-5h3c.55 0 1-.45 1-1v-5.18c0-.55-.45-1-1-1zm-6-2.5v1.82l2.36 2.36C13.56 5.25 12.83 5 12 5z"/>
+        </svg>
+    </button>
+
+    <!-- 1. Pantalla Inicial (Intro) -->
+    <section id="intro-screen" class="section intro-active">
+        <canvas id="intro-canvas"></canvas>
+
+        <!-- Decoraciones de fondo del intro -->
+        <div class="intro-bg-deco">
+            <div class="deco-ring deco-ring-1"></div>
+            <div class="deco-ring deco-ring-2"></div>
+            <div class="deco-ring deco-ring-3"></div>
+            <div class="deco-corner deco-tl"></div>
+            <div class="deco-corner deco-tr"></div>
+            <div class="deco-corner deco-bl"></div>
+            <div class="deco-corner deco-br"></div>
+            <!-- Estrellas flotantes -->
+            <span class="float-deco s1">✦</span>
+            <span class="float-deco s2">✦</span>
+            <span class="float-deco s3">◆</span>
+            <span class="float-deco s4">✦</span>
+            <span class="float-deco s5">◆</span>
+            <span class="float-deco s6">✦</span>
+        </div>
+
+        <div class="intro-content">
+            <!-- Oso graduado animado -->
+            <div class="bear-mascot" id="bear-mascot">
+                <svg viewBox="0 0 200 220" width="160" height="176" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <radialGradient id="bearBody" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#C8956C"/>
+                            <stop offset="100%" stop-color="#8B5E3C"/>
+                        </radialGradient>
+                        <radialGradient id="bearFace" cx="50%" cy="40%" r="55%">
+                            <stop offset="0%" stop-color="#DDA87A"/>
+                            <stop offset="100%" stop-color="#C8956C"/>
+                        </radialGradient>
+                        <radialGradient id="bearSnout" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#E8C4A0"/>
+                            <stop offset="100%" stop-color="#D4A97C"/>
+                        </radialGradient>
+                        <linearGradient id="capGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#AA7C11"/>
+                            <stop offset="50%" stop-color="#FFDF00"/>
+                            <stop offset="100%" stop-color="#D4AF37"/>
+                        </linearGradient>
+                        <filter id="bearGlow">
+                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                    </defs>
+                    <ellipse cx="100" cy="170" rx="48" ry="42" fill="url(#bearBody)"/>
+                    <ellipse cx="100" cy="175" rx="28" ry="26" fill="#DDA87A" opacity="0.7"/>
+                    <ellipse cx="48" cy="150" rx="16" ry="12" fill="url(#bearBody)" transform="rotate(-35 48 150)"/>
+                    <circle cx="36" cy="140" r="11" fill="url(#bearBody)"/>
+                    <ellipse cx="152" cy="150" rx="16" ry="12" fill="url(#bearBody)" transform="rotate(35 152 150)"/>
+                    <circle cx="164" cy="140" r="11" fill="url(#bearBody)"/>
+                    <ellipse cx="78" cy="205" rx="18" ry="10" fill="#7A4F2C"/>
+                    <ellipse cx="122" cy="205" rx="18" ry="10" fill="#7A4F2C"/>
+                    <circle cx="100" cy="105" r="50" fill="url(#bearFace)"/>
+                    <circle cx="60" cy="63" r="18" fill="url(#bearBody)"/>
+                    <circle cx="60" cy="63" r="10" fill="#DDA87A"/>
+                    <circle cx="140" cy="63" r="18" fill="url(#bearBody)"/>
+                    <circle cx="140" cy="63" r="10" fill="#DDA87A"/>
+                    <ellipse cx="100" cy="120" rx="22" ry="16" fill="url(#bearSnout)"/>
+                    <ellipse cx="100" cy="112" rx="8" ry="5" fill="#5C3317"/>
+                    <path d="M 88,122 Q 100,134 112,122" stroke="#5C3317" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M 83,98 Q 88,92 93,98" stroke="#3D2010" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <path d="M 107,98 Q 112,92 117,98" stroke="#3D2010" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <circle cx="87" cy="96" r="2" fill="white" opacity="0.8"/>
+                    <circle cx="113" cy="96" r="2" fill="white" opacity="0.8"/>
+                    <circle cx="73" cy="115" r="12" fill="#E88A6C" opacity="0.4"/>
+                    <circle cx="127" cy="115" r="12" fill="#E88A6C" opacity="0.4"/>
+                    <rect x="62" y="62" width="76" height="12" rx="3" fill="url(#capGold)" filter="url(#bearGlow)"/>
+                    <rect x="56" y="50" width="88" height="14" rx="2" fill="#1a1a1a"/>
+                    <rect x="58" y="49" width="84" height="4" rx="2" fill="#333"/>
+                    <rect x="60" y="51" width="40" height="3" rx="1" fill="rgba(255,255,255,0.15)"/>
+                    <line x1="144" y1="50" x2="158" y2="38" stroke="url(#capGold)" stroke-width="2.5"/>
+                    <circle cx="158" cy="36" r="5" fill="#FFDF00" filter="url(#bearGlow)"/>
+                    <line x1="158" y1="41" x2="153" y2="55" stroke="#D4AF37" stroke-width="1.5" opacity="0.8"/>
+                    <line x1="158" y1="41" x2="158" y2="56" stroke="#FFDF00" stroke-width="1.5" opacity="0.8"/>
+                    <line x1="158" y1="41" x2="163" y2="55" stroke="#D4AF37" stroke-width="1.5" opacity="0.8"/>
+                    <text x="20" y="90" font-size="16" class="bear-star-1">⭐</text>
+                    <text x="160" y="80" font-size="14" class="bear-star-2">✨</text>
+                    <text x="30" y="160" font-size="12" class="bear-star-3">🎉</text>
+                    <text x="155" y="155" font-size="12" class="bear-star-1">🌟</text>
+                </svg>
+            </div>
+
+            <!-- Banda dorada superior -->
+            <div class="intro-ribbon">
+                <span class="ribbon-line"></span>
+                <span class="ribbon-text">✦ FELIZ GRADUACIÓN ✦</span>
+                <span class="ribbon-line"></span>
+            </div>
+
+            <h2 class="intro-badge">Felicidades por ese tiempo dedicado hacia el estudio, sigue así</h2>
+            <em class="intro-name">LUIZA</em>
+
+            <!-- Subtítulo decorado -->
+            <div class="intro-stars-row">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+
+            <p class="intro-phrase">El esfuerzo de hoy es la llave al éxito del mañana.<br>Te apoyo y te apoyaré para siempre.</p>
+
+            <!-- Estadísticas celebratorias -->
+            <div class="intro-stats">
+                <div class="stat-item">
+                    <span class="stat-icon">🎓</span>
+                    <span class="stat-label">Graduada</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-icon">💪</span>
+                    <span class="stat-label">Dedicada</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-icon">⭐</span>
+                    <span class="stat-label">Brillante</span>
+                </div>
+            </div>
+
+            <button id="btn-surprise" class="btn-primary">
+                <span>Dale click</span>
+                <div class="btn-glow"></div>
+            </button>
+
+            <!-- Flecha animada abajo del botón -->
+            <div class="intro-arrow">↓</div>
+        </div>
+    </section>
+
+
+        <!-- Canvas para Transiciones y Explosiones (Confeti/Destellos) -->
+    <canvas id="transition-canvas"></canvas>
+
+    <!-- 2. Pantalla Principal de Sorpresa (Secciones Secuenciales) -->
+    <main id="surprise-screen" class="surprise-inactive hidden">
+        
+        <!-- Galería Emocional -->
+        <section id="gallery-section" class="content-section">
+            <div class="section-header">
+                <h3 class="section-subtitle">No tengo Momentos contigo pero es con cariño !!</h3>
+                <h2 class="section-title">Espero que esos Momentos que la pasaste en el Sena no se te olviden</h2>
+                <div class="divider"></div>
+            </div>
+            
+            <div class="polaroid-grid">
+                <!-- Polaroid 1 -->
+                <div class="polaroid-card" style="--rotation: -3deg;">
+                    <div class="polaroid-image-wrapper">
+                        <img src="images/grad_cap.png" alt="Birrete volando" loading="lazy">
+                        <div class="polaroid-shine"></div>
+                    </div>
+                    <div class="polaroid-caption">
+                        <p class="handwritten-text">El vuelo apenas comienza...</p>
+                    </div>
+                </div>
+
+                <!-- Polaroid 2 -->
+                <div class="polaroid-card" style="--rotation: 2deg;">
+                    <div class="polaroid-image-wrapper">
+                        <img src="images/diploma.png" alt="Diploma de graduación" loading="lazy">
+                        <div class="polaroid-shine"></div>
+                    </div>
+                    <div class="polaroid-caption">
+                        <p class="handwritten-text">Dedicación y constancia.</p>
+                    </div>
+                </div>
+
+                <!-- Polaroid 3 -->
+                <div class="polaroid-card" style="--rotation: -1.5deg;">
+                    <div class="polaroid-image-wrapper">
+                        <img src="images/celebration.png" alt="Celebración con amigos" loading="lazy">
+                        <div class="polaroid-shine"></div>
+                    </div>
+                    <div class="polaroid-caption">
+                        <p class="handwritten-text">¡El inicio del éxito!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Carta Interactiva -->
+        <section id="letter-section" class="content-section">
+            <div class="section-header">
+                <h3 class="section-subtitle">✦ De Corazón ✦</h3>
+                <h2 class="section-title">Una carta especial para ti</h2>
+                <div class="divider"></div>
+            </div>
+
+            <div class="envelope-container">
+                <!-- Sobre decorado -->
+                <div class="envelope" id="envelope">
+                    <!-- Triángulos del sobre -->
+                    <div class="env-flap-top"></div>
+                    <div class="env-flap-bottom"></div>
+                    <div class="env-flap-left"></div>
+                    <div class="env-flap-right"></div>
+                    <!-- Contenido frontal -->
+                    <div class="envelope-front">
+                        <div class="seal">
+                            <svg viewBox="0 0 100 100" width="70" height="70">
+                                <circle cx="50" cy="50" r="44" fill="#1a1005" stroke="#D4AF37" stroke-width="2"/>
+                                <circle cx="50" cy="50" r="38" fill="none" stroke="#AA7C11" stroke-width="1" stroke-dasharray="4 3"/>
+                                <text x="50" y="44" text-anchor="middle" font-size="18" fill="#FFDF00">🎓</text>
+                                <text x="50" y="62" text-anchor="middle" font-size="9" fill="#D4AF37" font-family="serif" letter-spacing="1">SENA 2025</text>
+                            </svg>
+                        </div>
+                        <p class="envelope-label">Para: Luiza ❤️</p>
+                        <p class="envelope-hint">( toca para abrir )</p>
+                    </div>
+                    <!-- Líneas decorativas del sobre -->
+                    <div class="env-lines">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+
+                <!-- Carta tipo pergamino que se despliega -->
+                <div class="letter-scroll" id="letter-paper">
+                    <!-- Rodillo superior -->
+                    <div class="scroll-rod scroll-rod-top">
+                        <div class="rod-cap rod-left"></div>
+                        <div class="rod-bar"></div>
+                        <div class="rod-cap rod-right"></div>
+                    </div>
+                    <!-- Contenido de la carta -->
+                    <div class="scroll-content" id="scroll-content">
+                        <!-- Decoración superior de la carta -->
+                        <div class="letter-deco-top">
+                            <div class="letter-ornament">
+                                ✦ ————————— ✦ ————————— ✦
+                            </div>
+                        </div>
+                        <div class="letter-header">
+                            <h4 class="cursive-title">Querida Luisa,</h4>
+                        </div>
+                        <div class="letter-body">
+                            <p id="typewriter-text"></p>
+                        </div>
+                        <!-- Firma decorada -->
+                        <div class="letter-footer">
+                            <div class="letter-deco-mid">✦ ———— ✦ ———— ✦</div>
+                            <p class="cursive-sign">Con orgullo y admiración,</p>
+                            <p class="cursive-sign-bold">Juanito 💛</p>
+                            <p class="cursive-sign-name">No es mucho pero con cariño</p>
+                            <!-- Flor decorativa al final -->
+                            <div class="letter-seal-bottom">
+                                <svg viewBox="0 0 80 80" width="60" height="60">
+                                    <circle cx="40" cy="40" r="36" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="3 4"/>
+                                    <text x="40" y="46" text-anchor="middle" font-size="26">🌸</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Rodillo inferior -->
+                    <div class="scroll-rod scroll-rod-bottom">
+                        <div class="rod-cap rod-left"></div>
+                        <div class="rod-bar"></div>
+                        <div class="rod-cap rod-right"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="btn-next-to-end" class="btn-secondary hidden">
+                <span>Continuar</span>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Final Cinematográfico (Fuegos Artificiales y Cierre) -->
+        <section id="outro-section" class="content-section">
+            <canvas id="fireworks-canvas"></canvas>
+            <div class="outro-content">
+                <div class="outro-award">
+                    <svg viewBox="0 0 100 100" width="80" height="80">
+                        <polygon points="50,5 63,35 95,38 70,60 78,92 50,75 22,92 30,60 5,38 37,35" fill="url(#gold-grad)"/>
+                    </svg>
+                </div>
+                <h2 class="outro-congrats">ESPERO QUE SEAS MUY FELIZ</h2>
+                <div class="outro-quote-container">
+                    <blockquote class="outro-quote">
+                        "El futuro pertenece a quienes creen en la belleza de sus sueños."
+                    </blockquote>
+                    <cite class="outro-author">— Disfrutalo Att= Juanito</cite>
+                </div>
+                <div class="outro-actions">
+                    <button id="btn-reset" class="btn-primary">
+                        <span>Revivir la Experiencia</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <!-- Música de fondo -->
+<audio id="bg-music" autoplay loop>
+    <source src="music/Instrumental-Arcangel.mp3" type="audio/mpeg">
+</audio>
+
+    <!-- Script Principal -->
+    <script src="script.js"></script>
+</body>
+</html>
